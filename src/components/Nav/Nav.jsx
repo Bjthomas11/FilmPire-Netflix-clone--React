@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import {
   AppBar,
   IconButton,
@@ -18,15 +18,43 @@ import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useStyles from "./styles";
 import { Sidebar, Search } from "../index.js";
+import { fetchToken, moviesApi, createSessionId } from "../../utils";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, userSelector } from "../../features/authSlice";
 
 const Nav = () => {
   const theme = useTheme();
   const classes = useStyles();
   const isMobile = useMediaQuery("(max-width:600px)");
   // window.innerWidth < 600;
-  const isAuth = true;
+  const dispatch = useDispatch();
+  const { isAuth, user } = useSelector(userSelector);
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const token = localStorage.getItem("token");
+  const session_id = localStorage.getItem("session_id");
+
+  useEffect(() => {
+    const loggedInUser = async () => {
+      if (token) {
+        if (session_id) {
+          const { data } = await moviesApi.get(
+            `/account?session_id=${session_id}`
+          );
+          dispatch(setUser(data));
+        } else {
+          const newSessionId = await createSessionId();
+          const { data } = await moviesApi.get(
+            `/account?session_id=${newSessionId}`
+          );
+          dispatch(setUser(data));
+        }
+      }
+    };
+    loggedInUser();
+  }, [token]);
+
   return (
     <Fragment>
       <AppBar position="fixed">
@@ -48,7 +76,7 @@ const Nav = () => {
           {!isMobile && <Search />}
           <div>
             {!isAuth ? (
-              <Button color="inherit" onClick={() => {}}>
+              <Button color="inherit" onClick={fetchToken}>
                 Login &nbsp; <AccountCircle />
               </Button>
             ) : (
@@ -56,7 +84,7 @@ const Nav = () => {
                 color="inherit"
                 onClick={() => {}}
                 component={Link}
-                to="{`/profile/:id`}"
+                to={`/profile/${user.id}`}
                 className={classes.linkButton}
               >
                 {!isMobile && <Fragment>My Movies &nbsp;</Fragment>}
