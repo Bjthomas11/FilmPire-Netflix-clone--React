@@ -37,7 +37,7 @@ const Nav = () => {
           const { data } = await moviesApi.get(
             `/account?session_id=${session_id}`
           );
-          console.log(data);
+          // console.log(data);
           dispatch(setUser(data));
         } else {
           const newSessionId = await createSessionId();
@@ -83,7 +83,7 @@ const Nav = () => {
                 to={`/profile/${user.id}`}
                 className={classes.linkButton}
               >
-                {!isMobile && <Fragment>{user.user} &nbsp;</Fragment>}
+                {!isMobile && <Fragment>{user.name} &nbsp;</Fragment>}
                 <Avatar
                   style={{ width: 30, height: 30 }}
                   alt="user profile"

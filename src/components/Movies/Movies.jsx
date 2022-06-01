@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { useGetMoviesQuery } from "../../services/movieAPI";
-import {
-  Box,
-  CircularProgress,
-  useMediaQuery,
-  Typography
-} from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { MovieDetail } from "../index";
 
