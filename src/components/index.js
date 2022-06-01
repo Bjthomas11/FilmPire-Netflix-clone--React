@@ -5,3 +5,4 @@ export { default as Nav } from "./Nav/Nav";
 export { default as ProfileDetail } from "./ProfileDetail/ProfileDetail";
 export { default as Sidebar } from "./Sidebar/Sidebar";
 export { default as Search } from "./Search/Search";
+export { default as Movie } from "./MovieDetail/Movie/Movie";

@@ -28,13 +28,14 @@ const Movies = () => {
       </Box>
     );
   }
+
   if (!data.results.length) {
     return (
-      <Box display="flex" justifyContent="center" mt="20px">
+      <Box display="flex" alignItems="center" mt="20px">
         <Typography variant="h4">
-          No Movies Found
+          No Movies Found.
           <br />
-          Please search for another movie
+          Please search for another movie.
         </Typography>
       </Box>
     );

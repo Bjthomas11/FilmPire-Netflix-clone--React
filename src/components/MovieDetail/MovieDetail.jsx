@@ -1,7 +1,7 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import useStyles from "./styles";
-import Movie from "./Movie/Movie";
+import { Movie } from "../index";
 
 const MovieDetail = ({ movies }) => {
   const classes = useStyles();

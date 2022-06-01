@@ -8,12 +8,7 @@ import {
   Avatar,
   useMediaQuery
 } from "@mui/material";
-import {
-  Menu,
-  AccountCircle,
-  LightMode,
-  DarkModeSharp
-} from "@mui/icons-material";
+import { Menu, AccountCircle, LightMode, DarkMode } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useStyles from "./styles";
@@ -42,6 +37,7 @@ const Nav = () => {
           const { data } = await moviesApi.get(
             `/account?session_id=${session_id}`
           );
+          console.log(data);
           dispatch(setUser(data));
         } else {
           const newSessionId = await createSessionId();
@@ -53,7 +49,7 @@ const Nav = () => {
       }
     };
     loggedInUser();
-  }, [token]);
+  }, [dispatch, session_id, token]);
 
   return (
     <Fragment>
@@ -71,7 +67,7 @@ const Nav = () => {
             </IconButton>
           )}
           <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
-            {theme.palette.mode === "dark" ? <DarkModeSharp /> : <LightMode />}
+            {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
           </IconButton>
           {!isMobile && <Search />}
           <div>
@@ -87,11 +83,11 @@ const Nav = () => {
                 to={`/profile/${user.id}`}
                 className={classes.linkButton}
               >
-                {!isMobile && <Fragment>My Movies &nbsp;</Fragment>}
+                {!isMobile && <Fragment>{user.user} &nbsp;</Fragment>}
                 <Avatar
                   style={{ width: 30, height: 30 }}
                   alt="user profile"
-                  src="https://s.yimg.com/ny/api/res/1.2/qp.vNxAB9lrteT7UI0gdpQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtjZj13ZWJw/https://s.yimg.com/uu/api/res/1.2/03jG2w9_lVlYV6gz84KzIQ--~B/aD0wO3c9MDthcHBpZD15dGFjaHlvbg--/https://media.zenfs.com/en/business_insider_articles_888/1b2fbb106068b73858a38345f91ac026"
+                  src={`https://image.tmdb.org/t/p/w500${user.avatar.tmdb.avatar_path}`}
                 />
               </Button>
             )}
@@ -108,7 +104,7 @@ const Nav = () => {
               open={isOpen}
               onClose={() => setIsOpen((prevState) => !prevState)}
               classes={{ paper: classes.drawerPaper }}
-              modalProps={{ keepMounted: true }}
+              ModalProps={{ keepMounted: true }}
             >
               <Sidebar setIsOpen={setIsOpen} />
             </Drawer>
