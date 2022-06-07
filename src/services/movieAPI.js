@@ -39,8 +39,14 @@ export const movieApi = createApi({
       query: () => {
         return `/genre/movie/list?api_key=${apiKey}&page=${currentPage}`;
       }
+    }),
+    // GET movie
+    getMovie: builder.query({
+      query: (id) =>
+        `/movie/${id}?append_to_response=videos,credits&api_key=${apiKey}`
     })
   })
 });
 
-export const { useGetMoviesQuery, useGetGenresQuery } = movieApi;
+export const { useGetMoviesQuery, useGetGenresQuery, useGetMovieQuery } =
+  movieApi;
