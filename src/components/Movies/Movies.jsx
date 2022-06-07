@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useGetMoviesQuery } from "../../services/movieAPI";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { MovieDetail } from "../index";
+import { MovieDetail, Pagination } from "../index";
 
 const Movies = () => {
   const [page, setPage] = useState(1);
@@ -40,7 +40,12 @@ const Movies = () => {
 
   return (
     <div>
-      <MovieDetail movies={data} />
+      <MovieDetail movies={data} numberOfMovies={8} />
+      <Pagination
+        currentPage={page}
+        setPage={setPage}
+        totalPages={data.total_pages}
+      />
     </div>
   );
 };

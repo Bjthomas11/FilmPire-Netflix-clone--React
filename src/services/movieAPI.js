@@ -15,19 +15,19 @@ export const movieApi = createApi({
           genreIdOrCategoryName &&
           typeof genreIdOrCategoryName === "string"
         ) {
-          return `movie/${genreIdOrCategoryName}?api_key=${apiKey}&page=${page}`;
+          return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${apiKey}`;
         }
         // get movies by genre
         if (
           genreIdOrCategoryName &&
           typeof genreIdOrCategoryName === "number"
         ) {
-          return `discover/movie?with_genres=${genreIdOrCategoryName}&api_key=${apiKey}&page=${page}`;
+          return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${apiKey}`;
         }
 
         // get movies by search
         if (searchQuery) {
-          return `search/movie?query=${searchQuery}&api_key=${apiKey}&page=${page}`;
+          return `search/movie?query=${searchQuery}&page=${page}&api_key=${apiKey}`;
         }
 
         // get popular movies(at init show popular movies)

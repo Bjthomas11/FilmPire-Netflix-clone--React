@@ -22,9 +22,10 @@ function App() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route exact path="/" component={Movies} />
           <Route exact path="/movie/:id" component={MovieInformation} />
           <Route exact path="/actors/:id" component={ActorsDetail} />
+          <Route exact path={["/", "/approved"]} component={Movies} />
+
           <Route exact path="/profile/:id" component={ProfileDetail} />
         </Switch>
       </main>

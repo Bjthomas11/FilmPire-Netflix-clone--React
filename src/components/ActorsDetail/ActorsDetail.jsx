@@ -10,8 +10,10 @@ import { ArrowBack } from "@mui/icons-material";
 
 import useStyles from "./styles";
 import { Link } from "react-router-dom";
+import Pagination from "../Pagination/Pagination";
 
 const ActorsDetail = () => {
+  const [page, setPage] = useState(1);
   const classes = useStyles();
   const { id } = useParams();
   const history = useHistory();
@@ -94,7 +96,14 @@ const ActorsDetail = () => {
           Other Movies
         </Typography>
         {movies ? (
-          <MovieDetail movies={movies} numberOfMovies={8} />
+          <>
+            <MovieDetail movies={movies} numberOfMovies={8} />
+            <Pagination
+              currentPage={page}
+              setPage={setPage}
+              totalPages={movies?.total_pages}
+            />
+          </>
         ) : (
           <Box>No movies were found.</Box>
         )}
