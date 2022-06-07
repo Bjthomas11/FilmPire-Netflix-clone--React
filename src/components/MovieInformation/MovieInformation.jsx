@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Modal,
   Typography,
@@ -34,6 +34,7 @@ import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
 import { MovieDetail } from "../index.js";
 
 const MovieInformation = () => {
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
@@ -144,7 +145,7 @@ const MovieInformation = () => {
                       xs={4}
                       md={2}
                       component={Link}
-                      tp={`/actors/${char.id}`}
+                      to={`/actors/${char.id}`}
                       style={{ textDecoration: "none" }}
                     >
                       <img
@@ -181,7 +182,11 @@ const MovieInformation = () => {
                 >
                   IMDB
                 </Button>
-                <Button onClick={() => {}} href="#" endIcon={<Theaters />}>
+                <Button
+                  onClick={() => setOpen(true)}
+                  href="#"
+                  endIcon={<Theaters />}
+                >
                   Trailer
                 </Button>
               </ButtonGroup>
@@ -230,9 +235,26 @@ const MovieInformation = () => {
         {recommendations ? (
           <MovieDetail movies={recommendations} numberOfMovies={8} />
         ) : (
-          <Box>No movie was found.</Box>
+          <Box>No movies were found.</Box>
         )}
       </Box>
+      <Modal
+        closeAfterTransition
+        className={classes.modal}
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        {data?.videos?.results?.length > 0 && (
+          <iframe
+            src={`https://www.youtube.com/embed/${data.videos.results[0].key}`}
+            autoPlay
+            className={classes.video}
+            frameBorder="0"
+            title="Trailer"
+            allow="autoplay"
+          />
+        )}
+      </Modal>
     </Grid>
   );
 };
