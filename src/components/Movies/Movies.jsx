@@ -42,7 +42,6 @@ const Movies = () => {
       </Box>
     );
   }
-
   if (error) return "An error has occured";
 
   return (
