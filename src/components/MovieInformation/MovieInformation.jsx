@@ -233,7 +233,7 @@ const MovieInformation = () => {
           Other Movies
         </Typography>
         {recommendations ? (
-          <MovieDetail movies={recommendations} numberOfMovies={8} />
+          <MovieDetail movies={recommendations} numberOfMovies={12} />
         ) : (
           <Box>No movies were found.</Box>
         )}
