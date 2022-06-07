@@ -9,7 +9,6 @@ import { Typography, Button, Grid, Box, CircularProgress } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 
 import useStyles from "./styles";
-import { Link } from "react-router-dom";
 import Pagination from "../Pagination/Pagination";
 
 const ActorsDetail = () => {

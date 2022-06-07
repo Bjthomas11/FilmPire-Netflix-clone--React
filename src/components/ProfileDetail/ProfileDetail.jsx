@@ -1,10 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { ExitToApp } from "@mui/icons-material";
 import { Box, Typography, Button } from "@mui/material";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../features/authSlice";
-// get access to user from redux state
-// display user info
 
 const ProfileDetail = () => {
   // const {user} = useSelector(state => state.user);

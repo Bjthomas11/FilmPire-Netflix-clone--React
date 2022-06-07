@@ -7,7 +7,6 @@ import {
   Grid,
   Box,
   CircularProgress,
-  useMediaQuery,
   Rating,
   ListItemIcon
 } from "@mui/material";
@@ -22,8 +21,7 @@ import {
   ArrowBack
 } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import { useDispatch } from "react-redux";
 import useStyles from "./styles";
 import {
   useGetMovieQuery,
@@ -38,11 +36,10 @@ const MovieInformation = () => {
   const classes = useStyles();
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
-  const { data: recommendations, isFetching: isRecommendationsFetching } =
-    useGetRecommendationsQuery({
-      list: "/recommendations",
-      movie_id: id
-    });
+  const { data: recommendations } = useGetRecommendationsQuery({
+    list: "/recommendations",
+    movie_id: id
+  });
   const dispatch = useDispatch();
 
   const isMovieFav = true;

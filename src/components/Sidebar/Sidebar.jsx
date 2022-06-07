@@ -10,7 +10,7 @@ import {
   CircularProgress
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useTheme } from "@mui/material/styles";
 import useStyles from "./styles";
 import { useGetGenresQuery } from "../../services/movieAPI";
@@ -32,9 +32,6 @@ const categories = [
 const Sidebar = ({ setIsOpen }) => {
   const { data, isFetching } = useGetGenresQuery();
   const dispatch = useDispatch();
-  const { genreIdOrCategoryName } = useSelector(
-    (state) => state.currentGenreOrCategory
-  );
   const theme = useTheme();
   const classes = useStyles();
 

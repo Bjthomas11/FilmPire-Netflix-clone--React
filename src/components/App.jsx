@@ -4,7 +4,6 @@ import { Route, Switch } from "react-router-dom";
 import useStyles from "./styles";
 import {
   ActorsDetail,
-  MovieDetail,
   Movies,
   Nav,
   ProfileDetail,
@@ -12,7 +11,6 @@ import {
 } from "./index.js";
 
 function App() {
-  // calling styles hook from styles file
   const classes = useStyles();
 
   return (
@@ -34,9 +32,3 @@ function App() {
 }
 
 export default App;
-
-// import MovieDetail from "./MovieDetail/MovieDetail";
-// import ActorsDetail from "./ActorsDetail/ActorsDetail";
-// import ProfileDetail from "./ProfileDetail/ProfileDetail";
-// import Movies from "./Movies/Movies";
-// import Nav from "./Nav/Nav";
