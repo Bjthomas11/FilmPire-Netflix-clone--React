@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import {
   AppBar,
   IconButton,
@@ -16,6 +16,7 @@ import { Sidebar, Search } from "../index.js";
 import { fetchToken, moviesApi, createSessionId } from "../../utils";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser, userSelector } from "../../features/authSlice";
+import { ColorModeContext } from "../../utils/ToggleColorMode";
 
 const Nav = () => {
   const theme = useTheme();
@@ -29,6 +30,7 @@ const Nav = () => {
 
   const token = localStorage.getItem("token");
   const session_id = localStorage.getItem("session_id");
+  const mode = useContext(ColorModeContext);
 
   useEffect(() => {
     const loggedInUser = async () => {
@@ -66,8 +68,8 @@ const Nav = () => {
               <Menu />
             </IconButton>
           )}
-          <IconButton color="inherit" sx={{ ml: 1 }} onClick={() => {}}>
-            {theme.palette.mode === "dark" ? <DarkMode /> : <LightMode />}
+          <IconButton color="inherit" sx={{ ml: 1 }} onClick={mode.toggleMode}>
+            {theme.palette.mode === "light" ? <DarkMode /> : <LightMode />}
           </IconButton>
           {!isMobile && <Search />}
           <div>
