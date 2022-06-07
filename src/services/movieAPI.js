@@ -15,19 +15,19 @@ export const movieApi = createApi({
           genreIdOrCategoryName &&
           typeof genreIdOrCategoryName === "string"
         ) {
-          return `movie/${genreIdOrCategoryName}?api_key=${apiKey}&page=${page}`;
+          return `movie/${genreIdOrCategoryName}?page=${page}&api_key=${apiKey}`;
         }
         // get movies by genre
         if (
           genreIdOrCategoryName &&
           typeof genreIdOrCategoryName === "number"
         ) {
-          return `discover/movie?with_genres=${genreIdOrCategoryName}&api_key=${apiKey}&page=${page}`;
+          return `discover/movie?with_genres=${genreIdOrCategoryName}&page=${page}&api_key=${apiKey}`;
         }
 
         // get movies by search
         if (searchQuery) {
-          return `search/movie?query=${searchQuery}&api_key=${apiKey}&page=${page}`;
+          return `search/movie?query=${searchQuery}&page=${page}&api_key=${apiKey}`;
         }
 
         // get popular movies(at init show popular movies)
@@ -39,8 +39,34 @@ export const movieApi = createApi({
       query: () => {
         return `/genre/movie/list?api_key=${apiKey}&page=${currentPage}`;
       }
+    }),
+    // GET movie
+    getMovie: builder.query({
+      query: (id) =>
+        `/movie/${id}?append_to_response=videos,credits&api_key=${apiKey}`
+    }),
+    // GET user movie rec lists
+    getRecommendations: builder.query({
+      query: ({ movie_id, list }) =>
+        `/movie/${movie_id}/${list}?api_key=${apiKey}`
+    }),
+    // GET actor detail
+    getActorDetail: builder.query({
+      query: (id) => `/person/${id}?api_key=${apiKey}`
+    }),
+    // GET movies by actor id
+    getMoviesByActorId: builder.query({
+      query: ({ id, page }) =>
+        `/discover/movie?with_cast=${id}&page={page}&api_key=${apiKey}`
     })
   })
 });
 
-export const { useGetMoviesQuery, useGetGenresQuery } = movieApi;
+export const {
+  useGetMoviesQuery,
+  useGetGenresQuery,
+  useGetMovieQuery,
+  useGetRecommendationsQuery,
+  useGetActorDetailQuery,
+  useGetMoviesByActorIdQuery
+} = movieApi;

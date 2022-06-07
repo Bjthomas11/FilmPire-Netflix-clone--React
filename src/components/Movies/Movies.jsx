@@ -7,10 +7,12 @@ import {
   Typography
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import { MovieDetail } from "../index";
+import { MovieDetail, Pagination } from "../index";
 
 const Movies = () => {
   const [page, setPage] = useState(1);
+  const lg = useMediaQuery((theme) => theme.breakpoints.only("lg"));
+  const numberOfMovies = lg ? 16 : 18;
   const { genreIdOrCategoryName, searchQuery } = useSelector(
     (state) => state.currentGenreOrCategory
   );
@@ -28,13 +30,14 @@ const Movies = () => {
       </Box>
     );
   }
+
   if (!data.results.length) {
     return (
-      <Box display="flex" justifyContent="center" mt="20px">
+      <Box display="flex" alignItems="center" mt="20px">
         <Typography variant="h4">
-          No Movies Found
+          No Movies Found.
           <br />
-          Please search for another movie
+          Please search for another movie.
         </Typography>
       </Box>
     );
@@ -44,7 +47,12 @@ const Movies = () => {
 
   return (
     <div>
-      <MovieDetail movies={data} />
+      <MovieDetail movies={data} numberOfMovies={numberOfMovies} />
+      <Pagination
+        currentPage={page}
+        setPage={setPage}
+        totalPages={data.total_pages}
+      />
     </div>
   );
 };
