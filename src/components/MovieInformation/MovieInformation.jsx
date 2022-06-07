@@ -25,14 +25,23 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import useStyles from "./styles";
-import { useGetMovieQuery } from "../../services/movieAPI";
+import {
+  useGetMovieQuery,
+  useGetRecommendationsQuery
+} from "../../services/movieAPI";
 import genreIcons from "../../assets/genres";
 import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
+import { MovieDetail } from "../index.js";
 
 const MovieInformation = () => {
   const classes = useStyles();
   const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
+  const { data: recommendations, isFetching: isRecommendationsFetching } =
+    useGetRecommendationsQuery({
+      list: "/recommendations",
+      movie_id: id
+    });
   const dispatch = useDispatch();
 
   const isMovieFav = true;
@@ -214,6 +223,16 @@ const MovieInformation = () => {
           </div>
         </Grid>
       </Grid>
+      <Box marginTop="5rem" width="100%">
+        <Typography variant="h3" gutterBottom align="center">
+          Other Movies
+        </Typography>
+        {recommendations ? (
+          <MovieDetail movies={recommendations} numberOfMovies={8} />
+        ) : (
+          <Box>No movie was found.</Box>
+        )}
+      </Box>
     </Grid>
   );
 };
