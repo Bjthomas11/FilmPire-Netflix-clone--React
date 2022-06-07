@@ -181,7 +181,7 @@ const MovieInformation = () => {
               <ButtonGroup size="small" variant="outlined">
                 <Button
                   onClick={addToFavorites}
-                  href="!#"
+                  href="#"
                   endIcon={
                     isMovieFav ? <FavoriteBorderOutlined /> : <Favorite />
                   }
