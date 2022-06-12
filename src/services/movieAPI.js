@@ -58,6 +58,11 @@ export const movieApi = createApi({
     getMoviesByActorId: builder.query({
       query: ({ id, page }) =>
         `/discover/movie?with_cast=${id}&page={page}&api_key=${apiKey}`
+    }),
+    // GET user lists
+    getList: builder.query({
+      query: ({ listName, accountId, sessionId, page }) =>
+        `/account/${accountId}/${listName}?api_key=${apiKey}&session_id=${sessionId}&page=${page}`
     })
   })
 });
@@ -68,5 +73,6 @@ export const {
   useGetMovieQuery,
   useGetRecommendationsQuery,
   useGetActorDetailQuery,
-  useGetMoviesByActorIdQuery
+  useGetMoviesByActorIdQuery,
+  useGetListQuery
 } = movieApi;

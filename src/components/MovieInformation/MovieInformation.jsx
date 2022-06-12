@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Typography,
@@ -21,33 +21,88 @@ import {
   ArrowBack
 } from "@mui/icons-material";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import useStyles from "./styles";
 import {
   useGetMovieQuery,
-  useGetRecommendationsQuery
+  useGetRecommendationsQuery,
+  useGetListQuery
 } from "../../services/movieAPI";
 import genreIcons from "../../assets/genres";
 import { selectGenreOrCategory } from "../../features/currentGenreOrCategory";
 import { MovieDetail } from "../index.js";
+import axios from "axios";
+import { userSelector } from "../../features/authSlice";
 
 const MovieInformation = () => {
-  const [open, setOpen] = useState(false);
-  const classes = useStyles();
+  const user = useSelector(userSelector);
   const { id } = useParams();
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+  const [isMovieFav, setIsMovieFav] = useState(false);
+  const [isMovieWatchlist, setIsMovieWatchlist] = useState(false);
   const { data, isFetching, error } = useGetMovieQuery(id);
+  const { data: favMovies } = useGetListQuery({
+    listName: "favorite/movies",
+    accountId: user.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1
+  });
+  const { data: watchlistMovies } = useGetListQuery({
+    listName: "watchlist/movies",
+    accountId: user.user.id,
+    sessionId: localStorage.getItem("session_id"),
+    page: 1
+  });
   const { data: recommendations } = useGetRecommendationsQuery({
     list: "/recommendations",
     movie_id: id
   });
-  const dispatch = useDispatch();
 
-  const isMovieFav = true;
-  const isMovieWatchlist = true;
+  useEffect(() => {
+    setIsMovieFav(
+      !!favMovies?.results?.find((movie) => movie?.id === data?.id)
+    );
+  }, [favMovies, data]);
 
-  const addToFavorites = () => {};
+  useEffect(() => {
+    setIsMovieWatchlist(
+      !!watchlistMovies?.results?.find((movie) => movie?.id === data?.id)
+    );
+  }, [watchlistMovies, data]);
 
-  const addToWatchList = () => {};
+  const addToFavorites = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user.id}/favorite?api_key=${
+        process.env.REACT_APP_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "movie",
+        media_id: id,
+        favorite: !isMovieFav
+      }
+    );
+
+    setIsMovieFav((prevState) => !prevState);
+  };
+  // console.log({ isMovieFav });
+  // console.log({ isMovieWatchlist });
+
+  const addToWatchList = async () => {
+    await axios.post(
+      `https://api.themoviedb.org/3/account/${user.id}/watchlist?api_key=${
+        process.env.REACT_APP_KEY
+      }&session_id=${localStorage.getItem("session_id")}`,
+      {
+        media_type: "movie",
+        media_id: id,
+        watchlist: !isMovieWatchlist
+      }
+    );
+
+    setIsMovieWatchlist((prevState) => !prevState);
+  };
 
   if (isFetching) {
     return (
@@ -64,7 +119,6 @@ const MovieInformation = () => {
       </Box>
     );
   }
-
   return (
     <Grid container className={classes.containerSpaceAround}>
       <Grid item sm={12} lg={4}>
